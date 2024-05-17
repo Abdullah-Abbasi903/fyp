@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kidneyscan/controllers/db_controller.dart';
 import 'package:kidneyscan/controllers/home_controller.dart';
+import 'package:kidneyscan/controllers/internet_controller.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +11,7 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -18,26 +21,27 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HomeController()),
         ChangeNotifierProvider(create: (_) => ThemeController()),
+        ChangeNotifierProvider(create: (_) => InternetController()),
+        ChangeNotifierProvider(create: (_) => DbController()),
       ],
       child: ResponsiveSizer(
         builder: (context, orientation, screenType) {
-          return MaterialApp(
-            darkTheme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
-            ),
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-              useMaterial3: true,
-            ),
-            home: const SplashScreen(),
-          );
+          return Consumer<ThemeController>(builder: (context, value, child) {
+            return MaterialApp(
+              darkTheme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+              ),
+              theme: value.currentTheme,
+              home: const SplashScreen(),
+            );
+            // child:
+          });
         },
       ),
     );

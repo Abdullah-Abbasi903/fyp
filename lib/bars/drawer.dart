@@ -1,70 +1,116 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kidneyscan/constants/colors/app_colors.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
+import 'package:kidneyscan/database/firebase_db.dart';
+import 'package:kidneyscan/screens/login_screen.dart';
+import 'package:kidneyscan/screens/update_profile.dart';
+import 'package:kidneyscan/utils/switch_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({super.key});
+  const MyDrawer({required this.userEmail, this.blood,this.water,super.key});
 
+  final String userEmail;
+  final blood;
+  final water;
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
 
 class _MyDrawerState extends State<MyDrawer> {
   bool buttonValue = false;
+  String userName = '';
 
+  @override
+  void initState() {
+    
+    super.initState();
+    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ThemeController>(context, listen: false).getUser(currentUserId);
+    });
+    loadSwitchState();
+  }
+
+ setTheme(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Store the current theme mode in shared preferences
+    await prefs.setBool('isDarkMode', value);
+    // Update the switch state
+    setState(() {
+      buttonValue = value;
+    });
+  }
+
+  loadSwitchState() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      // If the 'isDarkMode' key doesn't exist, default to false (light mode)
+      buttonValue = prefs.getBool('isDarkMode') ?? false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeController>(
       builder: (context, viewModel, child) {
         return Drawer(
-          backgroundColor: AppColors().primaryColor,
+          backgroundColor: viewModel.primaryColor(context),
           child: ListView(
             padding: const EdgeInsets.all(0),
             children: [
+
               UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: AppColors().primaryColor),
+                decoration: BoxDecoration(color: viewModel.primaryColor(context)),
                 accountName: Text(
-                  'Muhammad Abdullah Abbasi',
-                  style: TextStyle(
-                      color: AppColors().black, fontWeight: FontWeight.bold),
+                viewModel.user != null  ?
+                  viewModel.user!.name.toString()  : "",
+                  style: TextStyle(color:viewModel.secpondaryColor(context), fontWeight: FontWeight.bold),
                 ),
                 accountEmail: Text(
-                  'abbasiabdullah672@gmail.com',
-                  style: TextStyle(color: AppColors().black),
+                  viewModel.user != null ? viewModel.user!.email.toString() : "",
+                  style: TextStyle(color: viewModel.secpondaryColor(context)),
                 ),
                 currentAccountPicture: CircleAvatar(
-                  child: ClipOval(
-                    child: Image.asset(
-                      "assets/images/profile.png",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  radius: 50,
+                  backgroundImage: viewModel.image != null
+                      ? NetworkImage(viewModel.image.toString())
+                      :  const NetworkImage(
+                      'https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg'),
+                  // borderRadius: BorderRadius.circular(100),
+                  // child: CachedNetworkImage(
+                  //   imageUrl: value.image.toString(),
+                  //   placeholder: (context, url) => Icon(Icons.person),
+                  //   errorWidget: (context, url, error) => Icon(Icons.error),
+                  // ),
                 ),
               ),
               ListTile(
                 leading: const Icon(Icons.people),
                 title: const Text("profile"),
-                onTap: () {},
+                onTap: () {
+                  SwitchScreen().push(context,  UpdateProfile(water: widget.water,blood: widget.blood,));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.dark_mode),
                 title: const Text("Dark Mode"),
                 trailing: Switch(
                   onChanged: (value) {
+
                     setState(() {
                       buttonValue = value;
                     });
                     viewModel.toggleTheme();
+                    setTheme(value);
                   },
                   value: buttonValue,
                 ),
               ),
-              ListTile(
-                leading: const Icon(Icons.school),
-                title: const Text("Student mode"),
-                onTap: () {},
-              ),
+             
               ListTile(
                 leading: const Icon(Icons.email),
                 title: const Text("Contact us"),
@@ -88,7 +134,27 @@ class _MyDrawerState extends State<MyDrawer> {
               ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text("Logout"),
-                onTap: () {},
+                onTap: () async {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text('Confirm Logout'),
+                        actions: [
+                          TextButton(
+                            onPressed: () async {
+                              await FirebaseDb.logOut();
+                              Navigator.pop(context);
+                              Future.delayed(const Duration(seconds: 1));
+                              SwitchScreen().pushReplace(context, const LoginScreen());
+                            },
+                            child: const Text('Confirm'),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
               )
             ],
           ),

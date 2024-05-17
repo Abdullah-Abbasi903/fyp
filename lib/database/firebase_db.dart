@@ -1,13 +1,16 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kidneyscan/model/user_model.dart';
 import 'package:kidneyscan/utils/snack.dart';
 
 class FirebaseDb {
+ 
+  
+
   static CollectionReference user =
       FirebaseFirestore.instance.collection("users");
   static final auth = FirebaseAuth.instance;
@@ -22,7 +25,6 @@ class FirebaseDb {
       var userExists = await user.where('email', isEqualTo: userEmail).get();
 
       if (userExists.docs.isNotEmpty) {
-        // Email already exists, return false
         return false;
       }
       ////////////////////////////////////////////////////////
@@ -31,7 +33,7 @@ class FirebaseDb {
         password: userPassword,
       );
       addUsertoDb(
-          userEmail: userEmail, userName: userName, userNumber: userNumber);
+          userEmail: userEmail, userName: userName, userNumber: userNumber,);
       return true;
     } catch (e) {
       //print("Some error ocurred $e");
@@ -46,11 +48,11 @@ class FirebaseDb {
   }) async {
     String userId = auth.currentUser!.uid;
 
-    final encode = UserModel(
+    final encode = UserData(
       name: userName,
-      number: userNumber,
+
       email: userEmail,
-      uId: userId,
+      uId: userId, phoneNumber: userNumber, profilePic: 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png',
     );
 
     final getData = encode.toJson();
@@ -78,7 +80,7 @@ class FirebaseDb {
       snackBar(context, e.message ?? "An error occurred");
       return false;
     } catch (e) {
-      // Show snackbar with generic error message
+     
       snackBar(context, "An error");
       return false;
     }
@@ -107,9 +109,37 @@ class FirebaseDb {
       await FirebaseAuth.instance.signInWithCredential(credential);
       return true;
     } catch (e) {
-   
       print("some error occured $e");
       rethrow;
+    }
+  }
+
+  static Future<String?> getUserName(String userEmail) async {
+    try {
+      var userData = await user.where('email', isEqualTo: userEmail).get();
+      if (userData.docs.isNotEmpty) {
+        var firstDoc = userData.docs.first;
+        if (firstDoc.exists) {
+          var userDataMap = firstDoc.data() as Map<String, dynamic>?;
+          if (userDataMap != null && userDataMap.containsKey('name')) {
+            return userDataMap['name'] as String?;
+          }
+        }
+      }
+      return null;
+    } catch (e) {
+      print("Error fetching user name: $e");
+      return null;
+    }
+  }
+  
+  static Future<void> logOut() async {
+    try {
+      await auth.signOut();
+      
+    } catch (e) {
+       print('Error logging out user: $e');
+       rethrow;
     }
   }
 }

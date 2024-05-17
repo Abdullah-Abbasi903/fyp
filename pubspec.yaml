@@ -42,10 +42,19 @@ dependencies:
   image_picker: ^1.0.7
   provider: ^6.1.2
   firebase_core: ^2.28.0
+  cached_network_image: ^3.3.1
   cloud_firestore: ^4.16.0
   firebase_auth: ^4.19.0
   sign_in_button: ^3.2.0
   google_sign_in: ^6.2.1
+  image: ^4.1.7
+  webview_flutter: ^4.7.0
+  firebase_storage: ^11.7.2
+  connectivity_plus: ^6.0.3
+  shared_preferences: ^2.2.3
+  url_launcher: ^6.2.6
+  
+  liquid_progress_indicator_v2: ^0.5.0
 
 dev_dependencies:
   flutter_test:
@@ -71,17 +80,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/svgs/splash.svg
-     - assets/images/login.png
-     - assets/images/side_menu.png
-     - assets/svgs/homea.svg
-     - assets/svgs/homei.svg
-     - assets/svgs/report_a.svg
-     - assets/svgs/report_i.svg
-     - assets/svgs/blog_i.svg
-     - assets/svgs/blog_a.svg
-     - assets/images/profile.png
-   
+     - assets/svgs/
+     - assets/images/   
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

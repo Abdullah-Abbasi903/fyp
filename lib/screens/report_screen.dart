@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kidneyscan/constants/colors/app_colors.dart';
 
 class ReportScreen extends StatefulWidget {
   const ReportScreen({super.key});
@@ -10,8 +11,9 @@ class ReportScreen extends StatefulWidget {
 class _ReportScreenState extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('This is report screen'),),
+    return  Scaffold(
+      backgroundColor: AppColors().white,
+      body: const Center(child: Text('This is report screen'),),
     );
   }
 }

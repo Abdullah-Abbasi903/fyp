@@ -7,6 +7,7 @@ class AppColors {
   Color white = Colors.white;
   Color black = Colors.black;
   Color grey =  const Color(0xffE6E6E6);
+  Color darkGrey =  const Color(0xff4D4D4D);
 
   
 }

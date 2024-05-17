@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
+import 'package:kidneyscan/keys/app_keys.dart';
 import 'package:kidneyscan/screens/login_screen.dart';
 import 'package:kidneyscan/utils/switch_screen.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,6 +18,13 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  getTheme ()async { 
+    SharedPreferences prefs =await SharedPreferences.getInstance();
+    prefs.getBool(AppKeys.drawerKey);
+  }
+ 
+ 
   @override
   void initState() {
     Timer(
@@ -27,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
         );
       },
     );
+     getTheme();
     super.initState();
   }
 
