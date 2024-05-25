@@ -8,14 +8,14 @@ import 'package:kidneyscan/constants/colors/app_colors.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/screens/blog_screen.dart';
 import 'package:kidneyscan/screens/home_screen.dart';
+import 'package:kidneyscan/screens/input_data.dart';
 import 'package:kidneyscan/screens/report_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class NavBar extends StatefulWidget {
-  NavBar({this.water , this.blood, super.key});
-  final blood;
-  final water;
+  NavBar({super.key});
+
 
   
   final auth = FirebaseAuth.instance;
@@ -34,12 +34,13 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> bottomBarPages = [
     const HomeScreen(),
     const ReportScreen(),
+    const InputData(),
     const BlogScreen(),
   ];
 
   final _controller = NotchBottomBarController(index: 0);
 
-  int maxCount = 3;
+  int maxCount = 4;
 
   final _pageController = PageController(initialPage: 0);
   @override
@@ -113,6 +114,20 @@ class _NavBarState extends State<NavBar> {
                           BlendMode.srcIn,
                         ),),
                     ),
+                     BottomBarItem(
+                      inActiveItem: Image.asset(
+                        "assets/images/unselected care.png",
+                        color: Colors.white,
+                      ),
+                      activeItem: Image.asset(
+                        "assets/images/selected care.png",
+                        // color: Colors.white,
+                        // colorFilter: ColorFilter.mode(
+                        //   value.secpondaryColor(context),
+                        //   BlendMode.srcIn,
+                        // ),
+                      ),
+                    ),
                     BottomBarItem(
                       inActiveItem: SvgPicture.asset("assets/svgs/blog_i.svg"),
                       activeItem: SvgPicture.asset("assets/svgs/blog_a.svg",
@@ -128,7 +143,7 @@ class _NavBarState extends State<NavBar> {
                   kIconSize: 24.0,
                 )
               : null,
-          drawer: MyDrawer(water: widget.water,blood: widget.blood,userEmail: widget.auth.currentUser?.email ?? ''),
+          drawer: MyDrawer(userEmail: widget.auth.currentUser?.email ?? ''),
         );
       },
     );

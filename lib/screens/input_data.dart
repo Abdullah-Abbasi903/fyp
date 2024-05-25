@@ -1,9 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kidneyscan/bars/navbar.dart';
-import 'package:kidneyscan/bars/top_bar.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
-import 'package:kidneyscan/utils/switch_screen.dart';
+import 'package:kidneyscan/database/firebase_db.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class InputData extends StatefulWidget {
@@ -14,18 +13,57 @@ class InputData extends StatefulWidget {
 }
 
 class _InputDataState extends State<InputData> {
-  TextEditingController waterController = TextEditingController();
-  TextEditingController bloodController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
+  final _waterController = TextEditingController();
+  final _systolicController = TextEditingController();
+  final _diastolicController = TextEditingController();
+
+  @override
+  void dispose() {
+    _waterController.dispose();
+    _systolicController.dispose();
+    _diastolicController.dispose();
+    super.dispose();
+  }
+
+  String? _validateWaterIntake(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter water intake level';
+    }
+    final intake = int.tryParse(value);
+    if (intake == null || intake <= 0) {
+      return 'Please enter a valid water intake level';
+    }
+    return null;
+  }
+
+  String? _validateSystolic(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter systolic pressure';
+    }
+    final systolic = int.tryParse(value);
+    if (systolic == null || systolic < 90 || systolic > 180) {
+      return 'Please enter a valid systolic pressure (90-180)';
+    }
+    return null;
+  }
+
+  String? _validateDiastolic(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter diastolic pressure';
+    }
+    final diastolic = int.tryParse(value);
+    if (diastolic == null || diastolic < 60 || diastolic > 120) {
+      return 'Please enter a valid diastolic pressure (60-120)';
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(
-            height: 15.8.h,
-            child: const TopBar(),
-          ),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -55,7 +93,7 @@ class _InputDataState extends State<InputData> {
                           height: 5.h,
                         ),
                         Text(
-                          "Please fill the following to proceed further",
+                          "Please fill the following details",
                           style: GoogleFonts.rambla(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -66,14 +104,8 @@ class _InputDataState extends State<InputData> {
                           height: 17.h,
                         ),
                         TextFormField(
-                          controller: waterController,
-                          validator: (value) {
-                            if (value!.isEmpty || value == 0) {
-                              return "Please enter correct info";
-                            } else {
-                              return null;
-                            }
-                          },
+                          controller: _waterController,
+                          validator: _validateWaterIntake,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: "Enter your water intake (mL)",
@@ -87,17 +119,12 @@ class _InputDataState extends State<InputData> {
                           height: 4.h,
                         ),
                         TextFormField(
-                          controller: bloodController,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return "Please enter correct info";
-                            } else {
-                              return null;
-                            }
-                          },
+                          controller: _systolicController,
+                          validator: _validateSystolic,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: "Enter your blood pressure (mmHg)",
+                            hintText:
+                                "Enter your Systiloc blood pressure (mmHg)",
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: AppColors().primaryColor, width: 4),
@@ -105,7 +132,23 @@ class _InputDataState extends State<InputData> {
                           ),
                         ),
                         SizedBox(
-                          height: 2.h,
+                          height: 4.h,
+                        ),
+                        TextFormField(
+                          controller: _diastolicController,
+                          validator: _validateDiastolic,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText:
+                                "Enter your Diastiloc blood pressure (mmHg)",
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: AppColors().primaryColor, width: 4),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 4.h,
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -116,16 +159,21 @@ class _InputDataState extends State<InputData> {
                           ),
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              SwitchScreen().pushReplace(
-                                  context,
-                                  NavBar(
-                                    water: waterController.text,
-                                    blood: bloodController.text,
-                                  ));
+                              FirebaseDb.createMedicalReport(
+                                  waterIntakeLevel:
+                                      int.parse(_waterController.text),
+                                  systolic: int.parse(_systolicController.text),
+                                  dystolic:
+                                      int.parse(_diastolicController.text),
+                                  context: context, time: DateTime.now());
                             }
+                            _waterController.clear();
+                            _systolicController.clear();
+                            _diastolicController.clear();
+                            
                           },
                           child: Text(
-                            "Confirm",
+                            "Add Record",
                             style: TextStyle(color: AppColors().black),
                           ),
                         ),

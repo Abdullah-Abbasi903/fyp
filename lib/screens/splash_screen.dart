@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:kidneyscan/bars/navbar.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
 import 'package:kidneyscan/keys/app_keys.dart';
 import 'package:kidneyscan/screens/login_screen.dart';
@@ -18,25 +19,46 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-  getTheme ()async { 
-    SharedPreferences prefs =await SharedPreferences.getInstance();
+  bool gettingLogin = false;
+  getTheme() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getBool(AppKeys.drawerKey);
   }
- 
- 
-  @override
-  void initState() {
+
+  
+
+  Future<void> checkLoginStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isLoggedIn = prefs.getBool(AppKeys.loginKey) ?? false;
+    bool isThemeSet = prefs.getBool(AppKeys.drawerKey) ?? false;
+    
+    print("Login key is set to: $isLoggedIn");
+    print("Theme key is set to: $isThemeSet");
+
+    // Navigate after a short delay to show splash screen
     Timer(
       const Duration(seconds: 2),
       () {
-        SwitchScreen().pushReplace(
-          context,
-           const LoginScreen(),
-        );
+        if (isLoggedIn) {
+          SwitchScreen().pushReplace(
+            context,
+             NavBar(),
+          );
+        } else {
+          SwitchScreen().pushReplace(
+            context,
+            const LoginScreen(),
+          );
+        }
       },
     );
-     getTheme();
+  }
+
+  @override
+  void initState() {
+  checkLoginStatus();
+     
+    getTheme();
     super.initState();
   }
 

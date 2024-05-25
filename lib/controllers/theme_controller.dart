@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 import '../model/user_model.dart';
 

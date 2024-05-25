@@ -7,7 +7,6 @@ import 'package:kidneyscan/model/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
-
 class DbController extends ChangeNotifier {
   // DbController() {
   //   // getUserInfo();
@@ -29,7 +28,8 @@ class DbController extends ChangeNotifier {
 
   Future<void> getUser(String userId) async {
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot = await _fireStore.collection('users').doc(userId).get();
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _fireStore.collection('users').doc(userId).get();
       if (snapshot.exists) {
         _user = UserData.fromJson(snapshot.data()!);
         notifyListeners();
@@ -89,10 +89,13 @@ class DbController extends ChangeNotifier {
   //   }
   // }
 
-  Future<String?> uploadImageToFirebaseStorage(File imageFile, String userId) async {
+  Future<String?> uploadImageToFirebaseStorage(
+      File imageFile, String userId) async {
     try {
-      String storagePath = 'profile_pictures/$userId.jpg'; // Change the path as needed
-      Reference storageReference = FirebaseStorage.instance.ref().child(storagePath);
+      String storagePath =
+          'profile_pictures/$userId.jpg'; // Change the path as needed
+      Reference storageReference =
+          FirebaseStorage.instance.ref().child(storagePath);
       await storageReference.putFile(imageFile);
       String imageUrl = await storageReference.getDownloadURL();
       return imageUrl;
@@ -119,14 +122,17 @@ class DbController extends ChangeNotifier {
 
     try {
       if (_validateUserData(updatedUser, context)) {
-        await _fireStore.collection('users').doc(currentUserId).update({
-          'name': nameController.text,
-          'phoneNumber': phoneController.text,
-        });
+        await _fireStore.collection('users').doc(currentUserId).update(
+            {'name': updatedUser.name, 'phoneNumber': updatedUser.phoneNumber});
         _user = updatedUser;
         notifyListeners();
         getUser(currentUserId);
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Profile Updated"), duration: Duration(seconds: 2)));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Profile Updated"),
+            duration: Duration(seconds: 2),
+          ),
+        );
         notifyListeners();
       }
     } catch (e) {
@@ -136,14 +142,14 @@ class DbController extends ChangeNotifier {
 
   bool _validateUserData(UserData user, context) {
     if (user.name!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Name cannot be empty"),
         duration: Duration(seconds: 1),
       ));
       return false;
     }
     if (user.phoneNumber!.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text("Name cannot be empty"),
         duration: Duration(seconds: 1),
       ));
@@ -152,10 +158,12 @@ class DbController extends ChangeNotifier {
     return true;
   }
 
-  Future<void> changeEmail(String currentEmail, String password, String newEmail) async {
+  Future<void> changeEmail(
+      String currentEmail, String password, String newEmail) async {
     try {
       // Sign in the user with their current credentials
-      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: currentEmail,
         password: password,
       );

@@ -2,7 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/database/firebase_db.dart';
+import 'package:kidneyscan/keys/app_keys.dart';
 import 'package:kidneyscan/screens/login_screen.dart';
+import 'package:kidneyscan/screens/medical_history_screen.dart';
 import 'package:kidneyscan/screens/update_profile.dart';
 import 'package:kidneyscan/utils/switch_screen.dart';
 import 'package:provider/provider.dart';
@@ -11,11 +13,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({required this.userEmail, this.blood,this.water,super.key});
+  const MyDrawer({required this.userEmail, super.key});
 
   final String userEmail;
-  final blood;
-  final water;
+ 
   @override
   State<MyDrawer> createState() => _MyDrawerState();
 }
@@ -92,7 +93,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 leading: const Icon(Icons.people),
                 title: const Text("profile"),
                 onTap: () {
-                  SwitchScreen().push(context,  UpdateProfile(water: widget.water,blood: widget.blood,));
+                  SwitchScreen().push(context,  const UpdateProfile());
                 },
               ),
               ListTile(
@@ -122,9 +123,11 @@ class _MyDrawerState extends State<MyDrawer> {
                 onTap: () {},
               ),
               ListTile(
-                leading: const Icon(Icons.money),
-                title: const Text("Subscription"),
-                onTap: () {},
+                leading: const Icon(Icons.local_hospital),
+                title: const Text("Medical History"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const MedicalHistoryScreen()));
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.notifications),
@@ -143,6 +146,8 @@ class _MyDrawerState extends State<MyDrawer> {
                         actions: [
                           TextButton(
                             onPressed: () async {
+                              SharedPreferences prefs= await SharedPreferences.getInstance();
+                              prefs.setBool(AppKeys.loginKey, false);
                               await FirebaseDb.logOut();
                               Navigator.pop(context);
                               Future.delayed(const Duration(seconds: 1));

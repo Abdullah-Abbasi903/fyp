@@ -13,6 +13,22 @@ class FirebaseDb {
 
   static CollectionReference user =
       FirebaseFirestore.instance.collection("users");
+
+    
+
+
+
+static createMedicalReport({required int waterIntakeLevel,required int systolic,required int dystolic,required BuildContext context,required DateTime time}) async {
+String userId = auth.currentUser!.uid;
+  await user.doc(userId).collection("medicalReports").add({
+    "waterIntakeLevel":waterIntakeLevel,
+    "systolic BP":systolic,
+    "dystolic BP":dystolic,
+    'time':time
+  });
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Report Added"),duration: Duration(seconds: 1),));
+}
+
   static final auth = FirebaseAuth.instance;
 
   static Future<bool> createUser({

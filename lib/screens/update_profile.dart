@@ -15,11 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 class UpdateProfile extends StatefulWidget {
-  final String? water;
-
-  final String? blood;
-
-  const UpdateProfile({this.water, this.blood, super.key});
+  const UpdateProfile({super.key});
 
   @override
   State<UpdateProfile> createState() => _UpdateProfileState();
@@ -146,59 +142,6 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               prefixIcon: Icon(Icons.call),
                               hintText: "Number",
                             ),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          TextFormField(
-                            enabled: false,
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.bloodtype,
-                                color: Color.fromARGB(255, 236, 22, 6),
-                              ),
-                              hintText: "${widget.blood} (mmHg)",
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Stack(
-                            children: [
-                              TextFormField(
-                                enabled: false,
-                                decoration: InputDecoration(
-                                  prefixIcon: Icon(
-                                    Icons.water_drop_sharp,
-                                    color: AppColors().primaryColor,
-                                  ),
-                                  hintText: "${widget.water} (mL)",
-                                ),
-                              ),
-                              Positioned(
-                                right: 2.h,
-                                top: 10,
-                                bottom: 10,
-                                child: SizedBox(
-                                  width: 35,
-                                  height: 200,
-                                  child: LiquidCircularProgressIndicator(
-                                    value: double.parse(widget.water!) / 200,
-                                    valueColor: AlwaysStoppedAnimation(
-                                        AppColors().primaryColor),
-                                    backgroundColor: AppColors().grey,
-                                    borderColor: Colors.black,
-                                    borderWidth: 0.1,
-                                    direction: Axis.vertical,
-                                    center: Text(
-                                      "${((double.parse(widget.water!) / 200) * 100).toStringAsFixed(0)}%",
-                                      style: const TextStyle(
-                                          color: Colors.black, fontSize: 12),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                           SizedBox(
                             height: 5.h,
