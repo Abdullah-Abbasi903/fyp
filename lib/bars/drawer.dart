@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/database/firebase_db.dart';
 import 'package:kidneyscan/keys/app_keys.dart';
+import 'package:kidneyscan/screens/contact_us.dart';
 import 'package:kidneyscan/screens/login_screen.dart';
 import 'package:kidneyscan/screens/medical_history_screen.dart';
 import 'package:kidneyscan/screens/update_profile.dart';
@@ -115,7 +116,9 @@ class _MyDrawerState extends State<MyDrawer> {
               ListTile(
                 leading: const Icon(Icons.email),
                 title: const Text("Contact us"),
-                onTap: () {},
+                onTap: () {
+                  SwitchScreen().push(context, const ContactUs());
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.share),
