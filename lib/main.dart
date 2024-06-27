@@ -3,43 +3,88 @@ import 'package:flutter/material.dart';
 import 'package:kidneyscan/controllers/db_controller.dart';
 import 'package:kidneyscan/controllers/home_controller.dart';
 import 'package:kidneyscan/controllers/internet_controller.dart';
+import 'package:kidneyscan/controllers/notification_controller.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await AwesomeNotifications().initialize(
-      // set the icon to null if you want to use the default app icon
-      'resource://drawable/res_app_icon',
-      [
-        NotificationChannel(
-            channelGroupKey: 'basic_channel_group',
-            channelKey: 'basic_channel',
-            channelName: 'Basic notifications',
-            channelDescription: 'Notification channel for basic tests',
-            defaultColor: const Color(0xFF9D50DD),
-            ledColor: Colors.white)
-      ],
-      // Channel groups are only visual and are not required
-      channelGroups: [
-        NotificationChannelGroup(
-            channelGroupKey: 'basic_channel_group',
-            channelGroupName: 'Basic group')
-      ],
-      debug: true);
+  initializeTimeZone();
+  
+   AwesomeNotifications().initialize(
+    null,
+    [
+      NotificationChannel(
+        channelGroupKey: 'basic_channel_group',
+        channelKey: 'basic_channel',
+        channelName: 'Basic notifications',
+        channelDescription: 'Notification channel for basic tests',
+        defaultColor: const Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        importance: NotificationImportance.High, // Ensure high importance
+        channelShowBadge: true, // Show badge on icon
+        playSound: true, // Play sound for notifications
+        enableVibration: true, // Enable vibration
+      )
+    ],
+    channelGroups: [
+      NotificationChannelGroup(
+        channelGroupKey: 'basic_channel_group',
+        channelGroupName: 'Basic group',
+      )
+    ],
+    debug: true,
+  );
 
   bool isAllowedToSend = await AwesomeNotifications().isNotificationAllowed();
   if (!isAllowedToSend) {
-    AwesomeNotifications().requestPermissionToSendNotifications();
+    await AwesomeNotifications().requestPermissionToSendNotifications();
   }
+
+  AwesomeNotifications().setListeners(
+    onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+    onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
+    onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
+    onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
+  );
+
+   twoHourNotification();
+
   runApp(const MyApp());
+}
+
+Future<void> twoHourNotification() async {
+  final String timeZone = tz.local.name;
+
+  AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: 1,
+      channelKey: 'basic_channel',
+      title: 'Time to Hydrate!',
+      body: 'It has been 2 hours. Please drink some water to stay hydrated!',
+      notificationLayout: NotificationLayout.Default,
+    ),
+    schedule: NotificationInterval(
+      interval: 60, 
+      timeZone: timeZone,
+      repeats: true,
+    ),
+  );
+}
+
+void initializeTimeZone() {
+  tz.initializeTimeZones();
+  final String timeZoneName = tz.local.name;
+  tz.setLocalLocation(tz.getLocation(timeZoneName));
 }
 
 class MyApp extends StatelessWidget {
@@ -64,7 +109,6 @@ class MyApp extends StatelessWidget {
               theme: value.currentTheme,
               home: const SplashScreen(),
             );
-            // child:
           });
         },
       ),

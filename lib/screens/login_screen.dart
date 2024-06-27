@@ -7,7 +7,6 @@ import 'package:kidneyscan/database/firebase_db.dart';
 import 'package:kidneyscan/keys/app_keys.dart';
 import 'package:kidneyscan/screens/forgot_pass.dart';
 import 'package:kidneyscan/screens/signup_screen.dart';
-import 'package:kidneyscan/utils/notifications.dart';
 import 'package:kidneyscan/utils/switch_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -38,10 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
      
      }
      @override
-  void initState() {
-      Notifications.setNotifications();
-    super.initState();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {

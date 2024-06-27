@@ -32,8 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
     bool isLoggedIn = prefs.getBool(AppKeys.loginKey) ?? false;
     bool isThemeSet = prefs.getBool(AppKeys.drawerKey) ?? false;
     
-    print("Login key is set to: $isLoggedIn");
-    print("Theme key is set to: $isThemeSet");
+   
 
     // Navigate after a short delay to show splash screen
     Timer(
