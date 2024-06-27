@@ -5,10 +5,13 @@ import 'package:kidneyscan/controllers/home_controller.dart';
 import 'package:kidneyscan/controllers/internet_controller.dart';
 import 'package:kidneyscan/controllers/notification_controller.dart';
 import 'package:kidneyscan/controllers/theme_controller.dart';
+import 'package:kidneyscan/screens/report_screen.dart';
+import 'package:kidneyscan/screens/single_view.dart';
 import 'package:kidneyscan/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'bars/navbar.dart';
 import 'firebase_options.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -107,7 +110,7 @@ class MyApp extends StatelessWidget {
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
               ),
               theme: value.currentTheme,
-              home: const SplashScreen(),
+              home:  NavBar(),
             );
           });
         },

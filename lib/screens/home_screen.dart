@@ -13,6 +13,9 @@ import 'package:kidneyscan/utils/tips.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../model/kidney_model.dart';
+import '../repo/model_repo.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -26,8 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors().secondaryColor,
       context: context,
       builder: (builder) {
-        return Consumer<HomeController>(
-            builder: (BuildContext context, viewModel, Widget? child) {
+        return Consumer<HomeController>(builder: (BuildContext context, viewModel, Widget? child) {
           return SizedBox(
             height: 30.h,
             child: Row(
@@ -106,8 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 2.h, left: 1.h, right: 1.h),
+                                    padding: EdgeInsets.only(top: 2.h, left: 1.h, right: 1.h),
                                     child: RichText(
                                       textAlign: TextAlign.justify,
                                       text: TextSpan(
@@ -117,16 +118,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                             style: GoogleFonts.prompt(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 15,
-                                              color: themeValue
-                                                  .secpondaryColor(context),
+                                              color: themeValue.secpondaryColor(context),
                                             ),
                                           ),
                                           TextSpan(
                                             text:
                                                 "Our App Serves as a valuable resource but for optimum accuracy we recommend to consulting a qualified health care professionals",
                                             style: TextStyle(
-                                              color: themeValue
-                                                  .secpondaryColor(context),
+                                              color: themeValue.secpondaryColor(context),
                                             ),
                                           )
                                         ],
@@ -142,14 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             Card(
                               elevation: 7,
                               child: Container(
-                                decoration: BoxDecoration(
-                                    color: themeValue.primaryColor(context),
-                                    borderRadius: BorderRadius.circular(10)),
+                                decoration: BoxDecoration(color: themeValue.primaryColor(context), borderRadius: BorderRadius.circular(10)),
                                 width: 25.h,
                                 height: 10.5.h,
                                 child: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 1.h, vertical: 2.h),
+                                  padding: EdgeInsets.symmetric(horizontal: 1.h, vertical: 2.h),
                                   child: RichText(
                                     textAlign: TextAlign.justify,
                                     text: TextSpan(
@@ -159,16 +155,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           style: GoogleFonts.prompt(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15,
-                                            color: themeValue
-                                                .secpondaryColor(context),
+                                            color: themeValue.secpondaryColor(context),
                                           ),
                                         ),
                                         TextSpan(
                                           text: kidneyCareTips[4],
-                                          style: TextStyle(
-                                              color: themeValue
-                                                  .secpondaryColor(context),
-                                              overflow: TextOverflow.ellipsis),
+                                          style: TextStyle(color: themeValue.secpondaryColor(context), overflow: TextOverflow.ellipsis),
                                         )
                                       ],
                                     ),
@@ -200,16 +192,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                           10,
                                         ),
                                       ),
-                                      backgroundColor:
-                                          viewModel.image != null &&
-                                                  viewModel.image.toString() !=
-                                                      "" &&
-                                                  viewModel.image!.path
-                                                          .toString() !=
-                                                      ""
-                                              ? themeValue.currentTheme==ThemeData.dark() ? themeValue.thirdColor(context):AppColors().primaryColor
-                                                 
-                                              : AppColors().grey,
+                                      backgroundColor: viewModel.image != null &&
+                                              viewModel.image.toString() != "" &&
+                                              viewModel.image!.path.toString() != ""
+                                          ? themeValue.currentTheme == ThemeData.dark()
+                                              ? themeValue.thirdColor(context)
+                                              : AppColors().primaryColor
+                                          : AppColors().grey,
                                       foregroundColor: AppColors().black),
                                   onPressed: () {
                                     pickImage(context);
@@ -217,8 +206,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Text(
                                     "Upload image",
                                     style: GoogleFonts.prompt(
-                                      color: themeValue.currentTheme== ThemeData.dark()? AppColors().black:AppColors().black,
-                                          // themeValue.secpondaryColor(context),
+                                      color: themeValue.currentTheme == ThemeData.dark() ? AppColors().black : AppColors().black,
+                                      // themeValue.secpondaryColor(context),
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -228,17 +217,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: SizedBox(
                                     width: 15.h,
                                     child: Text(
-                                      viewModel.image != null &&
-                                              viewModel.image!.path
-                                                      .toString() !=
-                                                  ""
-                                          ? viewModel.image!.path
-                                              .split('/')
-                                              .last
+                                      viewModel.image != null && viewModel.image!.path.toString() != ""
+                                          ? viewModel.image!.path.split('/').last
                                           //.substring(0, 30)
                                           : 'No file choosen',
                                       style: TextStyle(
-                                          color: themeValue.currentTheme== ThemeData.dark()? AppColors().black:AppColors().black,
+                                          color: themeValue.currentTheme == ThemeData.dark() ? AppColors().black : AppColors().black,
                                           fontSize: 17,
                                           overflow: TextOverflow.ellipsis),
                                     ),
@@ -249,43 +233,49 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               height: 4.h,
                             ),
-                            SizedBox(
-                              width: 200,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: viewModel.image != null &&
-                                            viewModel.image!.path.toString() !=
-                                                ""
-                                        ?  themeValue.currentTheme==ThemeData.dark() ? themeValue.thirdColor(context):AppColors().primaryColor
-                                        : AppColors().grey,
-                                    foregroundColor: Colors.black,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                    )),
-                                onPressed: () {
-                                  viewModel.image != null &&
-                                          viewModel.image.toString() != "" &&
-                                          viewModel.image!.path.toString() !=
-                                              "" &&
-                                          viewModel.image!.path
-                                              .split("/")
-                                              .last
-                                              .contains("jpg")
-                                      ? SwitchScreen().push(
-                                          context,
-                                          const ReportScreen(),
-                                        )
-                                      : snackBar(context,
-                                          "Please provide correctimage format");
-                                },
-                                child: Text(
-                                  'Generate',
-                                  style: GoogleFonts.prompt(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeValue.currentTheme== ThemeData.dark()? AppColors().black:AppColors().black,),
-                                ),
-                              ),
-                            ),
+                            viewModel.loading
+                                ? Container(
+                                    width: 300,
+                                    height: 50,
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors().primaryColor,
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    width: 200,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: viewModel.image != null && viewModel.image!.path.toString() != ""
+                                              ? themeValue.currentTheme == ThemeData.dark()
+                                                  ? themeValue.thirdColor(context)
+                                                  : AppColors().primaryColor
+                                              : AppColors().grey,
+                                          foregroundColor: Colors.black,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          )),
+                                      onPressed: viewModel.image != null &&
+                                              viewModel.image.toString() != "" &&
+                                              viewModel.image!.path.toString() != "" &&
+                                              viewModel.image!.path.split("/").last.contains("jpg")
+                                          ? () async {
+                                              print('_____________________BTN_________________');
+                                              viewModel.apiCall(viewModel.image!,context);
+                                            }
+                                          : () {
+                                              snackBar(context, "Please provide correct image format");
+                                            },
+                                      child: Text(
+                                        'Generate',
+                                        style: GoogleFonts.prompt(
+                                          fontWeight: FontWeight.bold,
+                                          color: themeValue.currentTheme == ThemeData.dark() ? AppColors().black : AppColors().black,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                           ],
                         );
                       },
