@@ -303,7 +303,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (_) => SingleView(reportModel: _filteredReports![index])));
+                                      builder: (_) => SingleView(reportModel: KidneyModel(otherClasses: _filteredReports![index].reportsData.otherClasses,isKidney: _filteredReports![index].reportsData.isKidney,predictedClass: _filteredReports![index].reportsData.predictedClass,predictedPercentage:_filteredReports![index].reportsData.predictedPercentage ,predictedSize: _filteredReports![index].reportsData.predictedSize,))));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(color: Color(0xffDAECF5), borderRadius: BorderRadius.circular(20)),

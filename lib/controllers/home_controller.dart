@@ -67,10 +67,10 @@ class HomeController extends ChangeNotifier {
       var udid = Uuid().v4();
       setLoading(true);
       var res = await apiManager.uploadImageAndGetPrediction(image);
-      if (res.reportsData != null &&
-          res.reportsData.isKidney == true &&
-          res.reportsData.predictedClass != null &&
-          res.reportsData.predictedClass.toString() != "") {
+      if (res.otherClasses != null &&
+          res.isKidney == true &&
+          res.predictedClass != null &&
+          res.predictedClass.toString() != "") {
         Map<String, dynamic> modelData = res.toJson();
 
         DocumentReference docRef = FirebaseFirestore.instance.collection('reports').doc(id);
@@ -84,9 +84,9 @@ class HomeController extends ChangeNotifier {
           // If the document does not exist, create it and then append
           if (error is FirebaseException && error.code == 'not-found') {
             await docRef.set({
-              "reports": [
-                {"reportsData": modelData}
-              ]
+              "reports": FieldValue.arrayUnion([
+                {"reportsData": modelData, "id": udid, "time": DateTime.now()}
+              ])
             });
           } else {
             throw error;

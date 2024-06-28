@@ -6,8 +6,8 @@ import 'package:kidneyscan/model/kidney_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiManager {
-static String url = "http://192.168.100.32:5000/predict";
-Future<ReportModel> uploadImageAndGetPrediction(File imageFile) async {
+static String url = "http://192.168.100.13:5000/predict";
+Future<KidneyModel> uploadImageAndGetPrediction(File imageFile) async {
 
   // Create a multipart request
   var request = http.MultipartRequest(
@@ -41,7 +41,7 @@ Future<ReportModel> uploadImageAndGetPrediction(File imageFile) async {
 
     // Parse the JSON response into a KidneyModel object
     Map<String, dynamic> jsonResponse = jsonDecode(responseData);
-    ReportModel kidneyModel = ReportModel.fromJson(jsonResponse);
+    KidneyModel kidneyModel = KidneyModel.fromJson(jsonResponse);
 
     return kidneyModel;
   } else {

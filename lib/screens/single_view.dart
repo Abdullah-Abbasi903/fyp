@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:kidneyscan/model/kidney_model.dart';
 
 class SingleView extends StatefulWidget {
-  final ReportModel reportModel;
+  final KidneyModel reportModel;
 
   const SingleView({super.key, required this.reportModel});
 
@@ -152,7 +152,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  widget.reportModel.reportsData.predictedSize.toString(),
+                  widget.reportModel.predictedSize.toString(),
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
@@ -170,7 +170,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  widget.reportModel.reportsData.predictedSize.toString(),
+                  widget.reportModel.predictedSize.toString(),
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
@@ -188,7 +188,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  widget.reportModel.reportsData.otherClasses.normal.toString(),
+                  widget.reportModel.otherClasses!.normal.toString(),
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
@@ -206,7 +206,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  widget.reportModel.reportsData.predictedPercentage.toString(),
+                  widget.reportModel.predictedPercentage.toString(),
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
@@ -224,7 +224,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  widget.reportModel.reportsData.otherClasses.tumor.toString(),
+                  widget.reportModel.otherClasses!.tumor.toString(),
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
@@ -242,7 +242,7 @@ class _SingleViewState extends State<SingleView> {
                   width: 10,
                 ),
                 Text(
-                  '${widget.reportModel.reportsData.otherClasses.normal}',
+                  '${widget.reportModel.otherClasses!.normal}',
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                 ),
               ],
