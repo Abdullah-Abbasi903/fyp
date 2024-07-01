@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
@@ -17,20 +18,57 @@ class _ContactUsState extends State<ContactUs> {
   TextEditingController toController = TextEditingController();
   TextEditingController subjectController = TextEditingController();
   TextEditingController messegeController = TextEditingController();
-  Future<void> launchEmail({
-    required String toEmail,
-    required String subject,
-    required String message,
-  }) async {
-    final url =
-        'mailto:$toEmail?subject=${Uri.encodeFull(subject)}&body=${Uri.encodeFull(message)}';
-        if(await canLaunch(url)){
-          await launch(url);
-        }
-        else {
-      throw 'Could not launch $url';
-    }
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((MapEntry<String, String> e) =>
+    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
+  void launchEmail(  {required String toEmail,
+    required String subject,
+    required String message,}) async {
+
+// ···
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: toEmail,
+      query: encodeQueryParameters({
+
+        'subject':subject,
+        'body': message,
+      }),
+    );
+
+    launchUrl(emailLaunchUri);
+  }
+  // Future<void> launchEmail({
+  //   required String toEmail,
+  //   required String subject,
+  //   required String message,
+  // }) async {
+  //   final emailUri = Uri(
+  //     scheme: 'mailto',
+  //     path: toEmail,
+  //     queryParameters: {
+  //       'subject': subject,
+  //       'body': message,
+  //     },
+  //   );
+  //
+  //   final emailUrl = emailUri.toString();
+  //
+  //   try {
+  //     if (await canLaunch(emailUrl)) {
+  //       await launch(emailUrl);
+  //     } else {
+  //       throw 'Could not launch $emailUrl';
+  //     }
+  //   } catch (e) {
+  //     print('Error launching email: $e');
+  //     throw e;
+  //   }
+  // }
+
 
   @override
   Widget build(BuildContext context) {
