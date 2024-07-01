@@ -10,7 +10,6 @@ import 'package:kidneyscan/controllers/theme_controller.dart';
 import 'package:kidneyscan/model/user_model.dart';
 import 'package:kidneyscan/screens/forgot_pass.dart';
 import 'package:kidneyscan/screens/reset_email.dart';
-import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -158,7 +157,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             child: TextFormField(
                                 enabled: false,
                                 decoration: const InputDecoration(
-                                  prefixIcon: Icon(Icons.remove_red_eye),
+                                  prefixIcon: Icon(Icons.lock_clock_outlined),
                                   hintText: "Password",
                                 ),
                                 obscureText: true),

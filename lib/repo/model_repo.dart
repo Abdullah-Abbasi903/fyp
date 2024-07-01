@@ -6,7 +6,7 @@ import 'package:kidneyscan/model/kidney_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiManager {
-static String url = "http://192.168.100.13:5000/predict";
+static String url = "http://192.168.100.32:5000/predict";
 Future<KidneyModel> uploadImageAndGetPrediction(File imageFile) async {
 
   // Create a multipart request

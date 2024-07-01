@@ -34,6 +34,7 @@ class OtherClasses {
   double? cyst;
   double? normal;
   double? tumor;
+  double? stone;
 
   OtherClasses({this.cyst, this.normal, this.tumor});
 
@@ -41,6 +42,7 @@ class OtherClasses {
     cyst = json['Cyst'];
     normal = json['Normal'];
     tumor = json['Tumor'];
+    stone = json['Stone'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +50,7 @@ class OtherClasses {
     data['Cyst'] = this.cyst;
     data['Normal'] = this.normal;
     data['Tumor'] = this.tumor;
+    data['Stone'] = this.stone;
     return data;
   }
 }

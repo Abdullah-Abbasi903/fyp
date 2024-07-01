@@ -1,7 +1,11 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:open_file/open_file.dart';
 
 
 class NotificationController {
+
+
+  static String? pat;
   /// Use this method to detect when a new notification or a schedule is created
   @pragma("vm:entry-point")
   static Future<void> onNotificationCreatedMethod(
@@ -25,8 +29,11 @@ class NotificationController {
 
   /// Use this method to detect when the user taps on a notification or action button
   @pragma("vm:entry-point")
-  static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
-    // Your code goes here
+  static Future<void> onActionReceivedMethod(ReceivedAction receivedAction)async{
+    print('asdasdadad$pat');
+    if (pat != null) {
+      // Handle opening the PDF file here
+       OpenFile.open(pat);
+    }
   }
 }

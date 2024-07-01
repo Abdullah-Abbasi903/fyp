@@ -321,7 +321,7 @@ class _ReportScreenState extends State<ReportScreen> {
                               ),
                               InkWell(
                                   onTap: () {
-                                    value.fetchAndGeneratePdf(_filteredReports![index].id);
+                                    value.genpdf(_filteredReports![index]);
                                   },
                                   child: Image.asset(
                                     'assets/images/download.png',

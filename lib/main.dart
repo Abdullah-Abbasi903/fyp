@@ -22,6 +22,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   initializeTimeZone();
+
   
    AwesomeNotifications().initialize(
     null,
@@ -64,6 +65,8 @@ void main() async {
 
   runApp(const MyApp());
 }
+
+
 
 Future<void> twoHourNotification() async {
   final String timeZone = tz.local.name;
@@ -110,7 +113,7 @@ class MyApp extends StatelessWidget {
                 colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
               ),
               theme: value.currentTheme,
-              home:  NavBar(),
+              home: SplashScreen(),
             );
           });
         },
