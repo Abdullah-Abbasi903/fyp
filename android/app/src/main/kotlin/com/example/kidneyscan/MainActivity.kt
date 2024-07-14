@@ -1,4 +1,4 @@
-package com.example.kidneyscan
+package com.kidneyscan
 
 import io.flutter.embedding.android.FlutterActivity
 

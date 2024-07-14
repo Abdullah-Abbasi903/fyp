@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:kidneyscan/model/kidney_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class ApiManager {
-static String url = "http://192.168.100.32:5000/predict";
+static String url = "http://54.209.212.166/predict";
 Future<KidneyModel> uploadImageAndGetPrediction(File imageFile) async {
 
   // Create a multipart request

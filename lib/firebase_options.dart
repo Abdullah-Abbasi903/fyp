@@ -65,6 +65,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'kidney-scan.appspot.com',
     androidClientId: '416892898674-6jsikgm56ipbnlu7incnqnuvoll7d3uh.apps.googleusercontent.com',
     iosClientId: '416892898674-h6bjlbve8s5tkdtta87es75snbif6t8m.apps.googleusercontent.com',
-    iosBundleId: 'com.example.kidneyscan',
+    iosBundleId: 'com.kidneyscan',
   );
 }

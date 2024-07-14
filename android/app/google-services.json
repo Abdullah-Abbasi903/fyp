@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:416892898674:android:c0f560bfc2e5b5b27661eb",
         "android_client_info": {
-          "package_name": "com.example.kidneyscan"
+          "package_name": "com.kidneyscan"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "416892898674-6jsikgm56ipbnlu7incnqnuvoll7d3uh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.kidneyscan",
+            "package_name": "com.kidneyscan",
             "certificate_hash": "889957dc19fd4cf7ce8dc3da819524f3c64c1e6b"
           }
         },
@@ -42,7 +42,7 @@
               "client_id": "416892898674-h6bjlbve8s5tkdtta87es75snbif6t8m.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.kidneyscan"
+                "bundle_id": "com.kidneyscan"
               }
             }
           ]

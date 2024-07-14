@@ -15,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.kidneyscan</string>
+	<string>com.kidneyscan</string>
 	<key>PROJECT_ID</key>
 	<string>kidney-scan</string>
 	<key>STORAGE_BUCKET</key>
