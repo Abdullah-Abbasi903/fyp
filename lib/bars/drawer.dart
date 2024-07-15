@@ -30,10 +30,9 @@ class _MyDrawerState extends State<MyDrawer> {
   void initState() {
     
     super.initState();
-    String currentUserId = FirebaseAuth.instance.currentUser!.uid;
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<ThemeController>(context, listen: false).getUser(currentUserId);
+      Provider.of<ThemeController>(context, listen: false).getUser();
     });
     loadSwitchState();
   }

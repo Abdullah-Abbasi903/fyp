@@ -66,7 +66,14 @@ class _HomeScreenState extends State<HomeScreen> {
       },
     );
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<ThemeController>(context, listen: false).getUser();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Consumer<HomeController>(

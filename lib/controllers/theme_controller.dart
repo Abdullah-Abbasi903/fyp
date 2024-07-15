@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
 
@@ -33,34 +34,54 @@ Color thirdColor(BuildContext context) {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
 
   String? get image => _image;
-  Future<void> getUser(String userId) async {
+  // Future<void> getUser(String userId) async {
+  //   try {
+  //     DocumentSnapshot<Map<String, dynamic>> snapshot =
+  //         await _fireStore.collection('users').doc(userId).get();
+  //     if (snapshot.exists) {
+  //       _user = UserData.fromJson(snapshot.data()!);
+  //       notifyListeners();
+  //       print('____________Data__________');
+  //       print(_user!.email.toString());
+  //       if (user != null) {
+  //         nameController.text = user!.name!;
+  //         // emailController.text = user!.email;
+  //         phoneController.text = user!.phoneNumber!;
+  //         print('__________ph____-${user!.phoneNumber}');
+  //         _image = user!.profilePic;
+  //       }
+  //       print('____________Email__________');
+  //       print(user!.profilePic);
+  //       notifyListeners();
+  //     } else {
+  //       _user = null;
+  //     }
+  //   } catch (e) {
+  //     print('Error fetching user: $e');
+  //     _user = null;
+  //   }
+  // }
+  FirebaseFirestore _db = FirebaseFirestore.instance;
+
+  Future<UserData> getUser() async {
+    String id  = FirebaseAuth.instance.currentUser!.uid.toString();
     try {
-      DocumentSnapshot<Map<String, dynamic>> snapshot =
-          await _fireStore.collection('users').doc(userId).get();
-      if (snapshot.exists) {
-        _user = UserData.fromJson(snapshot.data()!);
+      DocumentSnapshot doc = await _db.collection('users').doc(id).get();
+      if (doc.exists) {
+        _user = UserData.fromJson(doc.data() as Map<String, dynamic>);
+
+        print('userdata${_user!.name.toString()}');
         notifyListeners();
-        print('____________Data__________');
-        print(_user!.email.toString());
-        if (user != null) {
-          nameController.text = user!.name!;
-          // emailController.text = user!.email;
-          phoneController.text = user!.phoneNumber!;
-          print('__________ph____-${user!.phoneNumber}');
-          _image = user!.profilePic;
-        }
-        print('____________Email__________');
-        print(user!.profilePic);
-        notifyListeners();
+        return UserData.fromJson(doc.data( )as Map<String, dynamic>);
+
       } else {
-        _user = null;
+        throw Exception('User not found');
       }
     } catch (e) {
       print('Error fetching user: $e');
-      _user = null;
+      rethrow; // Throw the error back to the caller
     }
   }
-
   void toggleTheme() async {
     _currentTheme = _currentTheme == ThemeData.light()
         ? ThemeData.dark()
