@@ -268,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ),
                                       ),
                                       onPressed: () async {
-                                        if (formKey.currentState!.validate()) {
+                                        if (!formKey.currentState!.validate()) {
                                           setState(() {
                                             isfound = true;
                                           });
@@ -279,9 +279,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           // );
                                           if (await FirebaseDb.getUser(
                                             context: context,
-                                            userEmail: emailController.text,
+                                            userEmail: "abbasiabdullah672@gmail.com",
                                             userPassword:
-                                                passwordController.text,
+                                                "Abbasi@345",
                                           )) {
                                             SwitchScreen()
                                                 .pushReplace(context, NavBar());

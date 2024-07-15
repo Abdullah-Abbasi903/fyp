@@ -75,7 +75,7 @@ class _SingleViewState extends State<SingleView> {
                       width: 10,
                     ),
                     Text(
-                        viewModdel.user!.name.toString(),
+                       viewModdel.user != null ? viewModdel.user!.name.toString():"",
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ],
@@ -93,7 +93,8 @@ class _SingleViewState extends State<SingleView> {
                       width: 10,
                     ),
                     Text(
-                      viewModdel.user!.email.toString(),
+                      viewModdel.user != null ?
+                      viewModdel.user!.email.toString():"",
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ],
@@ -112,7 +113,8 @@ class _SingleViewState extends State<SingleView> {
                       width: 10,
                     ),
                     Text(
-                        viewModdel.user!.phoneNumber.toString(),
+                      viewModdel.user != null ?
+                        viewModdel.user!.phoneNumber.toString():"",
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.w500, fontSize: 16),
                     ),
                   ],
