@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.kidneyscan">
     <queries>
         <!-- If your app checks for SMS support -->
         <intent>
@@ -30,7 +31,7 @@
         android:label="kidneyscan"
 
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" android:permission="android.permission.BROADCAST_STICKY"/>
         <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:permission="android.permission.BROADCAST_STICKY">
             <intent-filter>
