@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:flutter/material.dart';
 import 'package:kidneyscan/controllers/db_controller.dart';
 import 'package:kidneyscan/controllers/home_controller.dart';
@@ -16,12 +17,32 @@ import 'package:timezone/timezone.dart' as tz;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+      options: FirebaseOptions(
+          apiKey: 'AIzaSyAMseHRwzOtMvniXeVDoIz3T61CUbolOJc',
+          appId: "1:403688708332:android:414cda6e46c0ddb9f42dc9",
+          projectId: "erudite-acre-359605", messagingSenderId: ''));
+  await FirebaseAppCheck.instance.activate(
+    // You can also use a `ReCaptchaEnterpriseProvider` provider instance as an
+    // argument for `webProvider`
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    // Default provider for Android is the Play Integrity provider. You can use the "AndroidProvider" enum to choose
+    // your preferred provider. Choose from:
+    // 1. Debug provider
+    // 2. Safety Net provider
+    // 3. Play Integrity provider
+    androidProvider: AndroidProvider.debug,
+    // Default provider for iOS/macOS is the Device Check provider. You can use the "AppleProvider" enum to choose
+    // your preferred provider. Choose from:
+    // 1. Debug provider
+    // 2. Device Check provider
+    // 3. App Attest provider
+    // 4. App Attest provider with fallback to Device Check provider (App Attest provider is only available on iOS 14.0+, macOS 14.0+)
+    appleProvider: AppleProvider.appAttest,
   );
+
   initializeTimeZone();
 
-  
-   AwesomeNotifications().initialize(
+  AwesomeNotifications().initialize(
     null,
     [
       NotificationChannel(
@@ -31,9 +52,12 @@ void main() async {
         channelDescription: 'Notification channel for basic tests',
         defaultColor: const Color(0xFF9D50DD),
         ledColor: Colors.white,
-        importance: NotificationImportance.High, // Ensure high importance
-        channelShowBadge: true, // Show badge on icon
-        playSound: true, // Play sound for notifications
+        importance: NotificationImportance.High,
+        // Ensure high importance
+        channelShowBadge: true,
+        // Show badge on icon
+        playSound: true,
+        // Play sound for notifications
         enableVibration: true, // Enable vibration
       )
     ],
@@ -58,12 +82,10 @@ void main() async {
     onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
   );
 
-   twoHourNotification();
+  twoHourNotification();
 
   runApp(const MyApp());
 }
-
-
 
 Future<void> twoHourNotification() async {
   final String timeZone = tz.local.name;
@@ -77,7 +99,7 @@ Future<void> twoHourNotification() async {
       notificationLayout: NotificationLayout.Default,
     ),
     schedule: NotificationInterval(
-      interval: 60, 
+      interval: 60,
       timeZone: timeZone,
       repeats: true,
     ),

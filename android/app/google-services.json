@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "416892898674",
-    "project_id": "kidney-scan",
-    "storage_bucket": "kidney-scan.appspot.com"
+    "project_number": "403688708332",
+    "project_id": "erudite-acre-359605",
+    "storage_bucket": "erudite-acre-359605.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:416892898674:android:c0f560bfc2e5b5b27661eb",
+        "mobilesdk_app_id": "1:403688708332:android:414cda6e46c0ddb9f42dc9",
         "android_client_info": {
-          "package_name": "com.kidneyscan"
+          "package_name": "com.kidneyscan.iou"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "416892898674-6jsikgm56ipbnlu7incnqnuvoll7d3uh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.kidneyscan",
-            "certificate_hash": "889957dc19fd4cf7ce8dc3da819524f3c64c1e6b"
-          }
-        },
-        {
-          "client_id": "416892898674-qv5sbe2mg8s4ivfvi08ln4fb0stt8vd8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCGBdW7Uq3PUpgB13rx09qUT3sgsP9AFMM"
+          "current_key": "AIzaSyAMseHRwzOtMvniXeVDoIz3T61CUbolOJc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "416892898674-qv5sbe2mg8s4ivfvi08ln4fb0stt8vd8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "416892898674-h6bjlbve8s5tkdtta87es75snbif6t8m.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.kidneyscan"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }

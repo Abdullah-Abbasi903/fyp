@@ -7,6 +7,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kidneyscan/model/user_model.dart';
 import 'package:kidneyscan/utils/snack.dart';
 
+import '../bars/navbar.dart';
+import '../constants/colors/app_colors.dart';
+import '../utils/switch_screen.dart';
+
 class FirebaseDb {
  
   
@@ -106,30 +110,71 @@ String userId = auth.currentUser!.uid;
     await auth.sendPasswordResetEmail(email: userEmail);
   }
 
-  static Future<bool> signInWithGoogle() async {
-    // Trigger the authentication flow
+  static FirebaseAuth ar = FirebaseAuth.instance;
+  static GoogleSignIn googleSignIn = GoogleSignIn(
+
+  );
+
+  static Future<void> signInWithGoogle(BuildContext context) async {
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn(
+
+    );
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+      final UserCredential userCredential = await ar.signInWithCredential(credential);
+      final User? user = userCredential.user;
+    print("______________");
+    print('${user!.email}');
+      snackBar(
+          context,
+          "User Registered Successfully",
+          AppColors().primaryColor);
+      Future.delayed(
+        const Duration(seconds: 2),
+            () {
+          SwitchScreen()
+              .pushReplace(context, NavBar());
+        },
       );
-
-      // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      return true;
     } catch (e) {
-      print("some error occured $e");
-      rethrow;
+      print("Error: $e");
     }
+    // }
+    // static Future<bool> signInWithGoogle() async {
+    // Trigger the authentication flow
+    //   try {
+    //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    //
+    //     // Obtain the auth details from the request
+    //     final GoogleSignInAuthentication? googleAuth =
+    //         await googleUser?.authentication;
+    //
+    //     // Create a new credential
+    //     final credential = GoogleAuthProvider.credential(
+    //       accessToken: googleAuth?.accessToken,
+    //       idToken: googleAuth?.idToken,
+    //     );
+    //
+    //     // Once signed in, return the UserCredential
+    //    final res =  await FirebaseAuth.instance.signInWithCredential(credential);
+    //     if(res.user != null){
+    //       print('_______________google_signin___________');
+    //       print(res.user!.email.toString());
+    //       print(res.user!.phoneNumber.toString());
+    //       print(res.user!.displayName.toString());
+    //       }
+    //     return true;
+    //   } catch (e) {
+    //     print("some error occured $e");
+    //     rethrow;
+    //   }
+    // }
   }
-
   static Future<String?> getUserName(String userEmail) async {
     try {
       var userData = await user.where('email', isEqualTo: userEmail).get();

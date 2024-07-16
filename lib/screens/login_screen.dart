@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kidneyscan/bars/navbar.dart';
 import 'package:kidneyscan/constants/colors/app_colors.dart';
 import 'package:kidneyscan/controllers/internet_controller.dart';
@@ -242,12 +244,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                     });
                                   },
                                 ),
-                                Text(
-                                  "Remember Me",
-                                  style: TextStyle(
-                                      color: AppColors().black,
-                                      fontWeight: FontWeight.bold),
-                                )
+                                // Text(
+                                //   "Remember Me",
+                                //   style: TextStyle(
+                                //       color: AppColors().black,
+                                //       fontWeight: FontWeight.bold),
+                                // )
                               ],
                             ),
                             SizedBox(
@@ -276,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           //   context: context,
                                           //   userEmail: emailController.text,
                                           //   userPassword: passwordController.text,
-                                          // );
+                                          //
                                           if (await FirebaseDb.getUser(
                                             context: context,
                                             userEmail: emailController.text,
@@ -365,4 +367,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
+
 }

@@ -476,33 +476,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                       setState(() {
                                         isGoolgeCreating = true;
                                       });
-                                      if (await FirebaseDb.signInWithGoogle()) {
-                                        snackBar(
-                                            context,
-                                            "User Registered Successfully",
-                                            AppColors().primaryColor);
-                                        Future.delayed(
-                                          const Duration(seconds: 2),
-                                          () {
-                                            SwitchScreen()
-                                                .pushReplace(context, NavBar());
-                                          },
-                                        );
-                                      } else {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return const AlertDialog(
-                                              title: Text(
-                                                "Attention!",
-                                              ),
-                                              content: Text(
-                                                "Some error ocuured try again",
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }
+                                    FirebaseDb.signInWithGoogle(context);
+
+
                                       setState(() {
                                         isGoolgeCreating = false;
                                       });

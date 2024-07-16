@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.kidneyscan">
+package="com.kidneyscan.iou">
     <queries>
         <!-- If your app checks for SMS support -->
         <intent>
